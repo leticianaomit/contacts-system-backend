@@ -6,7 +6,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   port: 3306,
   username: 'root',
   password: 'docker',
-  database: 'crud',
+  database: 'contacts-system',
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: true,
 };

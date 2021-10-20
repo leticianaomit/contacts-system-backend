@@ -11,3 +11,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: docker
       MYSQL_DATABASE: contacts-system
+
+  backend:
+    image: leticiatakeshiro/contacts-system-backend:0.0.1
+    ports:
+      - '3000:3000'
+    container_name: 'contacts-system-backend'
