@@ -13,7 +13,14 @@ services:
       MYSQL_DATABASE: contacts-system
 
   backend:
-    image: leticiatakeshiro/contacts-system-backend:0.0.1
+    image: leticiatakeshiro/contacts-system-backend
     ports:
       - '3000:3000'
     container_name: 'contacts-system-backend'
+    environment:
+      DATABASE_TYPE=: mysql
+      DATABASE_HOST: db
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: docker
+      DATABASE_NAME: contacts-system
+      DATABASE_PORT: 3306
