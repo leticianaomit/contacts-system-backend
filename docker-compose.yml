@@ -17,6 +17,7 @@ services:
     ports:
       - '3000:3000'
     container_name: 'contacts-system-backend'
+    restart: always
     environment:
       DATABASE_TYPE: mysql
       DATABASE_HOST: db
