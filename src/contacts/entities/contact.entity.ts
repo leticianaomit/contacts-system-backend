@@ -1,5 +1,10 @@
 import { Person } from 'src/persons/entities/person.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Contact {
@@ -9,21 +14,15 @@ export class Contact {
   @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ default: null })
   email: string;
 
-  @Column()
+  @Column({ default: null })
   phone: string;
 
-  @Column()
+  @Column({ default: null })
   whatsapp: string;
-    
-  @ManyToOne(() => Person, person => person.contacts)
+
+  @ManyToOne(() => Person, (person) => person.contacts, { onDelete: 'CASCADE' })
   person: Person;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

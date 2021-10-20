@@ -3,4 +3,5 @@ export class CreateContactDto {
   phone: string;
   email: string;
   whatsapp: string;
+  idPerson: string;
 }

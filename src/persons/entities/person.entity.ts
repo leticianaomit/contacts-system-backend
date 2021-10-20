@@ -1,5 +1,10 @@
 import { Contact } from 'src/contacts/entities/contact.entity';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Person {
@@ -8,13 +13,7 @@ export class Person {
 
   @Column({ nullable: false })
   name: string;
-    
-  @OneToMany(() => Contact, contact => contact.person)
+
+  @OneToMany(() => Contact, (contact) => contact.person)
   contacts: Contact[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

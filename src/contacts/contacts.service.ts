@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PersonsService } from 'src/persons/persons.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { ContactRepository } from './repositories/contact.repository';
@@ -9,27 +10,52 @@ export class ContactsService {
   constructor(
     @InjectRepository(ContactRepository)
     private contactRepository: ContactRepository,
+    private personsService: PersonsService,
   ) {}
 
-  create(createContactDto: CreateContactDto) {
-    const contact = this.contactRepository.create(createContactDto);
-    return this.contactRepository.save(contact);
+  async create(createContactDto: CreateContactDto) {
+    const person = await this.personsService.findOne(createContactDto.idPerson);
+
+    if (!createContactDto.name)
+      throw new BadRequestException("Field 'name' is required");
+
+    const contact = this.contactRepository.create({
+      ...createContactDto,
+      person,
+    });
+
+    try {
+      await this.contactRepository.save(contact);
+    } catch (error) {
+      throw new BadRequestException('Could not insert contact');
+    }
   }
 
-  findAll() {
-    return this.contactRepository.find();
+  async findAll() {
+    return await this.contactRepository.find();
   }
 
-  findOne(id: string) {
-    return this.contactRepository.findOne(id);
+  async findOne(id: string) {
+    const contact = await this.contactRepository.findOne(id);
+    if (!contact) {
+      throw new BadRequestException('Contact not found');
+    }
+
+    return contact;
   }
 
-  update(id: string, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
+  async update(id: string, updateContactDto: UpdateContactDto) {
+    try {
+      await this.contactRepository.update({ id }, updateContactDto);
+    } catch (error) {
+      throw new BadRequestException('Could not update contact');
+    }
   }
 
-  remove(id: string) {
-    const contact = this.contactRepository.findOneOrFail(id)
-    return `This action removes a #${id} contact`;
+  async remove(id: string) {
+    const result = await this.contactRepository.delete({ id });
+    if (!result.affected) {
+      throw new BadRequestException('Could not delete contact');
+    }
   }
 }
