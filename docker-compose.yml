@@ -18,7 +18,7 @@ services:
       - '3000:3000'
     container_name: 'contacts-system-backend'
     environment:
-      DATABASE_TYPE=: mysql
+      DATABASE_TYPE: mysql
       DATABASE_HOST: db
       DATABASE_USERNAME: root
       DATABASE_PASSWORD: docker
