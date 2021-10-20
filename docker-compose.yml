@@ -5,9 +5,9 @@ services:
     image: mysql
     ports:
       - '3306:3306'
-    container_name: 'crud-mysql'
+    container_name: 'contacts-system-mysql'
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: docker
-      MYSQL_DATABASE: crud
+      MYSQL_DATABASE: contacts-system
