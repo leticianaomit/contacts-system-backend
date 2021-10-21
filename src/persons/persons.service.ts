@@ -37,8 +37,14 @@ export class PersonsService {
   }
 
   async update(id: string, updatePersonDto: UpdatePersonDto) {
+    const person = this.personRepository.create(updatePersonDto)
     try {
-      await this.personRepository.update({ id }, updatePersonDto);
+      await this.personRepository
+        .createQueryBuilder()
+        .update()
+        .set({ ...person })
+        .where('id = :id', { id })
+        .execute();
     } catch (error) {
       throw new BadRequestException('Could not update person');
     }

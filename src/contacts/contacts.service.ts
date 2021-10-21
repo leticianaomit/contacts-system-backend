@@ -31,8 +31,17 @@ export class ContactsService {
     }
   }
 
-  async findAll() {
-    return await this.contactRepository.find();
+  async findAllByIdPerson(idPerson: string) {
+    if (!idPerson)
+      throw new BadRequestException("Param 'idPerson' is required");
+
+    return await this.contactRepository.find({
+      where: {
+        person: {
+          id: idPerson,
+        },
+      },
+    });
   }
 
   async findOne(id: string) {
@@ -45,8 +54,14 @@ export class ContactsService {
   }
 
   async update(id: string, updateContactDto: UpdateContactDto) {
+    const contact = this.contactRepository.create(updateContactDto)
     try {
-      await this.contactRepository.update({ id }, updateContactDto);
+      await this.contactRepository
+        .createQueryBuilder()
+        .update()
+        .set({ ...contact })
+        .where('id = :id', { id })
+        .execute();
     } catch (error) {
       throw new BadRequestException('Could not update contact');
     }

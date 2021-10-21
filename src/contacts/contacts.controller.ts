@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
@@ -21,13 +22,8 @@ export class ContactsController {
   }
 
   @Get()
-  findAll() {
-    return this.contactsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contactsService.findOne(id);
+  findAll(@Query('idPerson') idPerson: CreateContactDto['idPerson']) {
+    return this.contactsService.findAllByIdPerson(idPerson);
   }
 
   @Patch(':id')
