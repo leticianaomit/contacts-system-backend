@@ -11,5 +11,8 @@
 ## Como executar
 
 - Instale o `docker`
-- Clone o repositório
-- Execute nesse diretório `docker-compose up`
+- Clone o repositório `https://github.com/leticiant/contacts-system-frontend`
+- Execute no diretório acima o comando `docker-compose up`
+
+Todas os serviços necessários serão executados.
+Agora você pode acessar [http://localhost:80](http://localhost:80) no seu navegador.
